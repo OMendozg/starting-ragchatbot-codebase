@@ -1,6 +1,13 @@
 import anthropic
 from typing import List, Optional, Dict, Any
 
+_API_ERROR_MESSAGES = {
+    400: "The AI service rejected the request (credit balance may be too low). Please check your Anthropic account.",
+    401: "Invalid API key. Please check the ANTHROPIC_API_KEY in your environment.",
+    429: "Rate limit reached. Please wait a moment and try again.",
+}
+_API_ERROR_FALLBACK = "The AI service is temporarily unavailable. Please try again later."
+
 class AIGenerator:
     """Handles interactions with Anthropic's Claude API for generating responses"""
     
@@ -77,12 +84,17 @@ Provide only the direct answer to what was asked.
             api_params["tool_choice"] = {"type": "auto"}
         
         # Get response from Claude
-        response = self.client.messages.create(**api_params)
-        
+        try:
+            response = self.client.messages.create(**api_params)
+        except anthropic.APIStatusError as e:
+            return _API_ERROR_MESSAGES.get(e.status_code, _API_ERROR_FALLBACK)
+        except anthropic.APIError:
+            return _API_ERROR_FALLBACK
+
         # Handle tool execution if needed
         if response.stop_reason == "tool_use" and tool_manager:
             return self._handle_tool_execution(response, api_params, tool_manager)
-        
+
         # Return direct response
         return response.content[0].text
     
