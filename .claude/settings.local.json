@@ -1,0 +1,31 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(powershell.exe -ExecutionPolicy Bypass -Command \"irm https://astral.sh/uv/install.ps1 | iex\")",
+      "Bash(export PATH=\"$PATH:/c/Users/omard/.local/bin\")",
+      "Bash(uv run uvicorn:*)",
+      "Bash(cmd.exe /c \"where node\")",
+      "Bash(cmd.exe /c \"where npx\")",
+      "Bash(claude mcp add:*)",
+      "Bash(npx @playwright/mcp@latest --help:*)",
+      "Bash(cmd.exe /c \"where npx 2>&1\")",
+      "Bash(cmd.exe /c \"where node & where npm & where npx\")",
+      "Bash(echo:*)",
+      "Bash(claude mcp remove:*)",
+      "Bash(claude mcp:*)",
+      "Bash(cmd.exe /c \"node --version 2>&1 & npm --version 2>&1 & npx --version 2>&1\")",
+      "Bash(powershell.exe -Command \"Get-Command node,npm,npx -ErrorAction SilentlyContinue | Select-Object Name, Source\")",
+      "Bash(powershell.exe -Command \"Get-Command node -ErrorAction SilentlyContinue\")",
+      "Bash(python:*)",
+      "Bash(pip show:*)",
+      "Bash(uv run:*)",
+      "Bash(uv add:*)",
+      "Bash(echo Server is up:*)",
+      "Bash(head:*)",
+      "Bash(start:*)",
+      "Bash(cd:*)",
+      "Bash(cmd.exe:*)",
+      "Bash(powershell.exe:*)"
+    ]
+  }
+}
